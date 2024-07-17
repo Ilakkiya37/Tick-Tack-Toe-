@@ -54,5 +54,15 @@ def tic_tac_toe():
     print_board(board)  # Print the final state of the board
     print("It's a tie!")  # Announce the tie
 
+def play_game():
+    # This function handles the main game loop with the option to restart
+    while True:
+        tic_tac_toe()  # Start a new game
+        choice = input("Do you want to play again? (yes/no): ").lower()  # Ask if the players want to play again
+        if choice != 'yes':
+            print("Thanks for playing!")  # Thank the players
+            break  # Exit the loop and end the game
+
 if __name__ == "__main__":
-    tic_tac_toe()  # Start the game
+    play_game()  # Start the game with the option to restart
+
