@@ -1,3 +1,26 @@
+import tkinter as tk
+
+def start_game():
+    # This function will be called when the "Start Game" button is clicked.
+    # Here, you can put the code to initialize your Tic Tac Toe game.
+    print("Game started!")
+    # You can add more code here to set up the game board, etc.
+
+# Create the main window
+root = tk.Tk()
+root.title("Tic Tac Toe")
+
+# Create a label for the title
+title_label = tk.Label(root, text="Tic Tac Toe", font=("Arial", 24))
+title_label.pack(pady=20)
+
+# Create a button to start the game
+start_button = tk.Button(root, text="Start Game", font=("Arial", 18), command=start_game)
+start_button.pack(pady=10)
+
+# Start the Tkinter event loop
+root.mainloop()
+
 # Tic-Tac-Toe Program using random number in Python
 
 import numpy as np
