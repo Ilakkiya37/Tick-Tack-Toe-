@@ -1,39 +1,20 @@
 import tkinter as tk
-
-def start_game():
-    # This function will be called when the "Start Game" button is clicked.
-    # Here, you can put the code to initialize your Tic Tac Toe game.
-    print("Game started!")
-    # You can add more code here to set up the game board, etc.
-
-# Create the main window
-root = tk.Tk()
-root.title("Tic Tac Toe")
-
-# Create a label for the title
-title_label = tk.Label(root, text="Tic Tac Toe", font=("Arial", 24))
-title_label.pack(pady=20)
-
-# Create a button to start the game
-start_button = tk.Button(root, text="Start Game", font=("Arial", 18), command=start_game)
-start_button.pack(pady=10)
-
-# Start the Tkinter event loop
-root.mainloop()
-
-# Tic-Tac-Toe Program using random number in Python
-
 import numpy as np
 import random
-from time import sleep
 
-# Creates an empty board
+def start_game():
+    global board
+    board = create_board()
+    update_board()
+    for button in buttons:
+        button.config(state=tk.NORMAL)
+    show_game_frame()
+
 def create_board():
     return np.array([[0, 0, 0],
                      [0, 0, 0],
                      [0, 0, 0]])
 
-# Check for empty places on board
 def possibilities(board):
     l = []
     for i in range(len(board)):
@@ -42,14 +23,12 @@ def possibilities(board):
                 l.append((i, j))
     return l
 
-# Select a random place for the player
 def random_place(board, player):
     selection = possibilities(board)
     current_loc = random.choice(selection)
     board[current_loc] = player
     return board
 
-# Checks whether the player has three of their marks in a horizontal row
 def row_win(board, player):
     for x in range(len(board)):
         win = True
@@ -61,19 +40,17 @@ def row_win(board, player):
             return True
     return False
 
-# Checks whether the player has three of their marks in a vertical row
 def col_win(board, player):
     for x in range(len(board)):
         win = True
         for y in range(len(board)):
-            if board[y][x] != player:
+            if board[y, x] != player:
                 win = False
                 break
         if win:
             return True
     return False
 
-# Checks whether the player has three of their marks in a diagonal row
 def diag_win(board, player):
     win = True
     for x in range(len(board)):
@@ -90,7 +67,6 @@ def diag_win(board, player):
             break
     return win
 
-# Evaluates whether there is a winner or a tie
 def evaluate(board):
     winner = 0
     for player in [1, 2]:
@@ -100,25 +76,93 @@ def evaluate(board):
         winner = -1
     return winner
 
-# Main function to start the game
-def play_game():
-    board, winner, counter = create_board(), 0, 1
-    print(board)
-    sleep(2)
-    while winner == 0:
-        for player in [1, 2]:
-            board = random_place(board, player)
-            print("Board after " + str(counter) + " move")
-            print(board)
-            sleep(2)
-            counter += 1
-            winner = evaluate(board)
-            if winner != 0:
-                break
-    return winner
+def update_board():
+    for i in range(3):
+        for j in range(3):
+            if board[i, j] == 1:
+                buttons[i*3+j].config(text="X")
+            elif board[i, j] == 2:
+                buttons[i*3+j].config(text="O")
+            else:
+                buttons[i*3+j].config(text="")
 
-# Driver Code
-print("Winner is: " + str(play_game()))
+def play_move(i, j):
+    global board
+    if board[i, j] == 0:
+        board[i, j] = 1
+        update_board()
+        if evaluate(board) == 1:
+            end_game("Player X wins!")
+        else:
+            board = random_place(board, 2)
+            update_board()
+            if evaluate(board) == 2:
+                end_game("Player O wins!")
+            elif evaluate(board) == -1:
+                end_game("It's a tie!")
+
+def end_game(message):
+    for button in buttons:
+        button.config(state=tk.DISABLED)
+    result_label.config(text=message)
+    show_result_frame()
+
+def restart_game():
+    result_frame.pack_forget()
+    start_game()
+
+def show_game_frame():
+    opening_frame.pack_forget()
+    result_frame.pack_forget()
+    game_frame.pack()
+
+def show_result_frame():
+    game_frame.pack_forget()
+    result_frame.pack()
+
+# Create the main window
+root = tk.Tk()
+root.title("Tic Tac Toe")
+
+# Create the opening screen frame
+opening_frame = tk.Frame(root)
+opening_frame.pack()
+
+# Create a label for the title
+title_label = tk.Label(opening_frame, text="Tic Tac Toe", font=("Arial", 24))
+title_label.pack(pady=20)
+
+# Create a button to start the game
+start_button = tk.Button(opening_frame, text="Start Game", font=("Arial", 18), command=start_game)
+start_button.pack(pady=10)
+
+# Create the main game frame
+game_frame = tk.Frame(root)
+
+# Create the Tic-Tac-Toe board buttons
+buttons = []
+for i in range(3):
+    for j in range(3):
+        button = tk.Button(game_frame, text="", font=("Arial", 36), width=5, height=2, 
+                           command=lambda i=i, j=j: play_move(i, j))
+        button.grid(row=i, column=j)
+        buttons.append(button)
+
+# Create the result frame
+result_frame = tk.Frame(root)
+result_label = tk.Label(result_frame, text="", font=("Arial", 24))
+result_label.pack(pady=20)
+
+# Create buttons to restart or exit the game
+restart_button = tk.Button(result_frame, text="Restart Game", font=("Arial", 18), command=restart_game)
+restart_button.pack(pady=10)
+
+exit_button = tk.Button(result_frame, text="Exit", font=("Arial", 18), command=root.quit)
+exit_button.pack(pady=10)
+
+# Start the Tkinter event loop
+root.mainloop()
+
 
 
 
