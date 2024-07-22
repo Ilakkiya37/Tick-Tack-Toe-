@@ -10,6 +10,6 @@ https://www.geeksforgeeks.org/python-implementation-automatic-tic-tac-toe-game-u
 
 ![Game Start](
 
-![Player Move](https://github.com/Ilakkiya37/Tick-Tack-Toe-/blob/main/Screenshot%202024-07-19%20231428.png?raw=true)
+![Player Move]()
 *Player making a move.*
 
