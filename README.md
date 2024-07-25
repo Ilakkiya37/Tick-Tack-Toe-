@@ -5,6 +5,9 @@ This is a simple game implemented in python.  Players take turns to place their 
 https://www.geeksforgeeks.org/python-implementation-automatic-tic-tac-toe-game-using-random-number/
 
 ## **Instructions**
+1. to start playing the game, player has to tap on the start game button
+2. Once playing, player wiill use their mouse, through the cursor to tap X inn the box, the second player is the bot, so the O will be automated
+3. When finsished playing, player can restart or end the game.
 
 
 
