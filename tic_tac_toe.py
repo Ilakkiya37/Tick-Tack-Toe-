@@ -1,6 +1,10 @@
 import tkinter as tk
 import numpy as np
 import random
+import pygame  # Import pygame for music
+
+# Initialize pygame mixer
+pygame.mixer.init()
 
 def start_game():
     global board
@@ -8,7 +12,9 @@ def start_game():
     update_board()
     for button in buttons:
         button.config(state=tk.NORMAL)
+    result_label.config(text="")  # Clear the result label on restart
     show_game_frame()
+    play_music()  # Start playing music when the game starts
 
 def create_board():
     return np.array([[0, 0, 0],
@@ -25,8 +31,9 @@ def possibilities(board):
 
 def random_place(board, player):
     selection = possibilities(board)
-    current_loc = random.choice(selection)
-    board[current_loc] = player
+    if selection:
+        current_loc = random.choice(selection)
+        board[current_loc] = player
     return board
 
 def row_win(board, player):
@@ -93,6 +100,8 @@ def play_move(i, j):
         update_board()
         if evaluate(board) == 1:
             end_game("Player X wins!")
+        elif evaluate(board) == -1:
+            end_game("It's a tie!")
         else:
             board = random_place(board, 2)
             update_board()
@@ -106,6 +115,7 @@ def end_game(message):
         button.config(state=tk.DISABLED)
     result_label.config(text=message)
     show_result_frame()
+    stop_music()  # Stop the music when the game ends
 
 def restart_game():
     result_frame.pack_forget()
@@ -119,6 +129,13 @@ def show_game_frame():
 def show_result_frame():
     game_frame.pack_forget()
     result_frame.pack()
+
+def play_music():
+    pygame.mixer.music.load("/mnt/data/Winter Reflections.mp3")
+    pygame.mixer.music.play(loops=-1)  # Play the music in a loop
+
+def stop_music():
+    pygame.mixer.music.stop()
 
 # Create the main window
 root = tk.Tk()
@@ -163,8 +180,9 @@ exit_button.pack(pady=10)
 # Start the Tkinter event loop
 root.mainloop()
 
-
-
+    
+       
+ 
 
 
 
