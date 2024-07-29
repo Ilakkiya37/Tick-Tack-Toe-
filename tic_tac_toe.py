@@ -31,9 +31,8 @@ def possibilities(board):
 
 def random_place(board, player):
     selection = possibilities(board)
-    if selection:
-        current_loc = random.choice(selection)
-        board[current_loc] = player
+    current_loc = random.choice(selection)
+    board[current_loc] = player
     return board
 
 def row_win(board, player):
@@ -100,8 +99,6 @@ def play_move(i, j):
         update_board()
         if evaluate(board) == 1:
             end_game("Player X wins!")
-        elif evaluate(board) == -1:
-            end_game("It's a tie!")
         else:
             board = random_place(board, 2)
             update_board()
@@ -131,11 +128,16 @@ def show_result_frame():
     result_frame.pack()
 
 def play_music():
-    pygame.mixer.music.load("/mnt/data/Winter Reflections.mp3")
-    pygame.mixer.music.play(loops=-1)  # Play the music in a loop
+    try:
+        pygame.mixer.music.load("C:\Users\bibiz\Downloads\Winter Reflections.mp3")  # Ensure the file is in the same directory or provide the correct path
+        pygame.mixer.music.play(loops=-1)  # Play the music in a loop
+        print("Music started playing.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 def stop_music():
     pygame.mixer.music.stop()
+    print("Music stopped.")
 
 # Create the main window
 root = tk.Tk()
@@ -179,12 +181,3 @@ exit_button.pack(pady=10)
 
 # Start the Tkinter event loop
 root.mainloop()
-
-    
-       
- 
-
-
-
-
-
