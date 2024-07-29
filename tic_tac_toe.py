@@ -160,6 +160,10 @@ opening_frame.pack()
 title_label = tk.Label(opening_frame, text="Tic Tac Toe", font=("Arial", 24))
 title_label.pack(pady=20)
 
+# Create a label for the title
+title_label = tk.Label(opening_frame, text="Instructions: You are playing as 'X'. Get 3 Xs in a row to win! To start the game, click the 'Start' button ", font=("Arial", 12))
+title_label.pack(pady=20)
+
 # Create a button to start the game
 start_button = tk.Button(opening_frame, text="Start Game", font=("Arial", 18), command=start_game)
 start_button.pack(pady=10)
