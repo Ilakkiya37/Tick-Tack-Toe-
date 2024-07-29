@@ -95,6 +95,7 @@ def update_board():
 def play_move(i, j):
     global board
     if board[i, j] == 0:
+        play_click_sound()
         board[i, j] = 1
         update_board()
         if evaluate(board) == 1:
@@ -129,7 +130,7 @@ def show_result_frame():
 
 def play_music():
     try:
-        pygame.mixer.music.load("C:\Users\bibiz\Downloads\Winter Reflections.mp3")  # Ensure the file is in the same directory or provide the correct path
+        pygame.mixer.music.load("bgm.mp3")  # Ensure the file is in the same directory or provide the correct path
         pygame.mixer.music.play(loops=-1)  # Play the music in a loop
         print("Music started playing.")
     except Exception as e:
@@ -138,6 +139,14 @@ def play_music():
 def stop_music():
     pygame.mixer.music.stop()
     print("Music stopped.")
+
+def play_click_sound():
+  try:
+    # Load the sound effect file (replace with your actual file path)
+    pygame.mixer.Sound("click.mp3").play()
+  except Exception as e:
+    print(f"Error playing sound effect: {e}")
+
 
 # Create the main window
 root = tk.Tk()
